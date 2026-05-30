@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS FRAUD_DETECTION
+  COMMENT = 'Fraud detection ML project';
+  
