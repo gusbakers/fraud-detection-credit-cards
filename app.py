@@ -36,8 +36,7 @@ st.set_page_config(
 # ─────────────────────────────────────────
 # PATHS
 # ─────────────────────────────────────────
-BASE_DIR    = os.path.dirname(os.path.dirname(__file__))
-OUTPUTS_DIR = os.path.join(BASE_DIR, "outputs")
+OUTPUTS_DIR = "/mount/src/fraud-detection-credit-cards/outputs"
 
 # ─────────────────────────────────────────
 # LOAD DATA
