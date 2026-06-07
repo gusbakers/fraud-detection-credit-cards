@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.dirname(__file__))
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -28,24 +32,30 @@ st.set_page_config(
 )
 
 # ─────────────────────────────────────────
+# PATHS
+# ─────────────────────────────────────────
+BASE_DIR    = os.path.dirname(os.path.dirname(__file__))
+OUTPUTS_DIR = os.path.join(BASE_DIR, "outputs")
+
+# ─────────────────────────────────────────
 # LOAD DATA
 # ─────────────────────────────────────────
 @st.cache_data
 def load_predictions() -> pd.DataFrame:
-    return pd.read_csv("outputs/predictions.csv")
+    return pd.read_csv(os.path.join(OUTPUTS_DIR, "predictions.csv"))
 
 @st.cache_data
 def load_shap_values() -> pd.DataFrame:
-    return pd.read_csv("outputs/shap_values.csv")
+    return pd.read_csv(os.path.join(OUTPUTS_DIR, "shap_values.csv"))
 
 @st.cache_resource
 def load_model():
-    with open("outputs/best_model.pkl", "rb") as f:
+    with open(os.path.join(OUTPUTS_DIR, "best_model.pkl"), "rb") as f:
         return pickle.load(f)
 
 @st.cache_resource
 def load_datasets():
-    with open("outputs/datasets.pkl", "rb") as f:
+    with open(os.path.join(OUTPUTS_DIR, "datasets.pkl"), "rb") as f:
         return pickle.load(f)
 
 # ─────────────────────────────────────────
@@ -73,6 +83,9 @@ st.sidebar.markdown("""
 - SHAP
 - Streamlit
 """)
+st.sidebar.markdown("---")
+st.sidebar.markdown("**Author**")
+st.sidebar.markdown("[gusbakers](https://github.com/gusbakers)")
 
 # ─────────────────────────────────────────
 # LOAD
@@ -178,18 +191,22 @@ elif page == "🔎 SHAP Explainability":
     feature_names = datasets["feature_names"]
     X_test_df     = pd.DataFrame(X_test, columns=feature_names)
 
-    explainer   = shap.TreeExplainer(model)
-    shap_values = explainer.shap_values(X_test_df)
+    with st.spinner("Calculando SHAP values..."):
+        explainer   = shap.TreeExplainer(model)
+        shap_values = explainer.shap_values(X_test_df)
 
     st.markdown("### 📊 Summary Plot")
+    st.markdown("Impacto de cada feature en todas las predicciones.")
     fig, ax = plt.subplots()
     shap.summary_plot(shap_values, X_test_df, show=False)
     st.pyplot(fig)
+    plt.clf()
 
     st.markdown("### 📊 Feature Importance")
     fig2, ax2 = plt.subplots()
     shap.summary_plot(shap_values, X_test_df, plot_type="bar", show=False)
     st.pyplot(fig2)
+    plt.clf()
 
     st.markdown("### 🔍 Análisis de Transacción Individual")
     idx     = st.slider("Selecciona una transacción", 0, len(X_test_df) - 1, 0)
@@ -264,10 +281,11 @@ elif page == "🚨 Live Predictor":
         else:
             st.success(f"✅ TRANSACCIÓN LEGÍTIMA — Probabilidad de fraude: {prob:.2%}")
 
-        explainer = shap.TreeExplainer(model)
-        shap_vals = explainer.shap_values(input_df)
+        with st.spinner("Calculando explicación..."):
+            explainer = shap.TreeExplainer(model)
+            shap_vals = explainer.shap_values(input_df)
 
-        st.markdown("### 🔍 ¿Por qué?")
+        st.markdown("### 🔍 ¿Por qué tomó esta decisión?")
         df_explain = pd.DataFrame({
             "Feature"   : feature_names,
             "SHAP Value": shap_vals[0],
