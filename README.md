@@ -38,6 +38,15 @@ with MLflow, and a live dashboard anyone can open right now.
 | **Accuracy** | **0.9997** |
 
 ---
+> ⚠️ **Note on AUC-ROC score:** A perfect 1.0 score on the test 
+> set was flagged for investigation. SHAP analysis identified 
+> that feature importance was heavily concentrated in a small 
+> subset of features, suggesting potential data leakage from 
+> the synthetic data generation process. This is documented as 
+> a known limitation and a learning outcome — recognizing and 
+> communicating model anomalies is part of responsible ML 
+> practice. A revised version with strict temporal feature 
+> splits is planned for v2.
 
 ## 🏗️ Architecture
 
