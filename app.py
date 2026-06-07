@@ -1,4 +1,16 @@
-import sys
+ OUTPUTS_DIR = "/mount/src/fraud-detection-credit-cards/outputs"
+
+# DEBUG — borrar después
+import os
+st.write("📁 Buscando en:", OUTPUTS_DIR)
+st.write("📂 Archivos disponibles:")
+try:
+    st.write(os.listdir(OUTPUTS_DIR))
+except Exception as e:
+    st.error(f"❌ Error: {e}")
+    st.write("📂 Archivos en raíz:")
+    st.write(os.listdir("/mount/src/fraud-detection-credit-cards/"))
+st.stop()                     import sys
 import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
