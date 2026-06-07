@@ -1,6 +1,8 @@
 import sys
 import os
-sys.path.append(os.path.dirname(__file__))
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 import streamlit as st
 import pandas as pd
@@ -9,12 +11,12 @@ import pickle
 import shap
 import matplotlib.pyplot as plt
 
-from utils.metrics import (
+from dashboards.utils.metrics import (
     compute_metrics,
     compute_confusion_matrix,
     compute_fraud_stats
 )
-from utils.plots import (
+from dashboards.utils.plots import (
     plot_confusion_matrix,
     plot_roc_curve,
     plot_precision_recall,
