@@ -195,7 +195,7 @@ notebooks/04_evaluation/
 
 **Gustavo Feliz** — [@gusbakers](https://github.com/gusbakers)
 
-Master's in Machine Learning | Cornell Tech  
+Master's in Data Science | Cornell Tech  
 Data Engineer · ML Engineer · AI Engineer
 
 ---
