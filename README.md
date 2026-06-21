@@ -204,7 +204,7 @@ notebooks/04_evaluation/
 
 **Gustavo** — [@gusbakers](https://github.com/gusbakers)
 
-Master's in Data Science | Cornell Tech  
+Master's in Data Science   
 Data Engineer · ML Engineer · AI Engineer
 
 ---
